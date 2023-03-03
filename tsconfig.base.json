@@ -21,7 +21,7 @@
     "paths": {
       "@wallettree/api-client": ["packages/api-client/src/index.ts"],
       "@wallettree/sdk": ["packages/sdk/src/index.ts"],
-      "@wallettree/shared-core": ["packages/shared/core/src/index.ts"],
+      "@wallettree/shared-core": ["packages/shared/core/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
