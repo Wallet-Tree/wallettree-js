@@ -2,7 +2,6 @@
   "name": "@wallettree/wallettree-js",
   "version": "0.1.0",
   "description": "Node.js SDK for integrating Wallettree into your app",
-  "main": "index.js",
   "scripts": {
     "start": "nx serve",
     "build": "nx affected:build --skip-nx-cache",
