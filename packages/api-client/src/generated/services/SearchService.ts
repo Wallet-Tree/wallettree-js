@@ -6,10 +6,10 @@ import type { CancelablePromise } from '../core/CancelablePromise'
 import { request as __request } from '../core/request'
 
 export class SearchService {
-  public static getProfile(id: string): CancelablePromise<any> {
+  public static search(username: string): CancelablePromise<any> {
     return __request({
       method: 'GET',
-      path: `/v1/profile/${id}`,
+      path: `/v1/profile/${username}`,
       errors: {
         400: `Bad Request. Validation failed for the given object in the HTTP Body or Request parameters.`,
         401: `Unauthorized. Not valid or inactive subscription key present in the HTTP Header.`,

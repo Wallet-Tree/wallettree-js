@@ -1,7 +1,5 @@
 import {
-  IpfsService,
   PaymentService,
-  ResolverService,
   SearchService,
 } from '../generated'
 import { OpenAPI } from '../generated/core/OpenAPI'
@@ -11,7 +9,7 @@ export type WalletTreeApiType = ReturnType<typeof WalletTreeApi>
 export type WalletTreeUrlArg = string
 
 export const WALLETTREE_API_CONSTANTS = {
-  URL: 'https://prod.normalapi.com',
+  URL: 'https://api.wallettree.me',
   HEADER_API_KEY: 'x-api-key',
   NODE_TYPE_KEY: 'x-node-type',
   API_VERSION: 'v1',
@@ -32,8 +30,6 @@ export function WalletTreeApi(apiKey: string, url: string = WALLETTREE_API_CONST
 // export type EvmBasedApiService = EthereumService
 
 export const ApiServices = {
-  ipfs: IpfsService,
   payments: PaymentService,
-  resolver: ResolverService,
   search: SearchService,
 }
