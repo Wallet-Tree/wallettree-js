@@ -16,7 +16,5 @@ export type { Error404BlockNotExists } from './models/Error404BlockNotExists';
 export type { Error404TxNotFound } from './models/Error404TxNotFound';
 
 
-export { ResolverService } from './services/ResolverService';
 export { PaymentService } from './services/PaymentService';
 export { SearchService } from './services/SearchService';
-export { IpfsService } from './services/IpfsService';
