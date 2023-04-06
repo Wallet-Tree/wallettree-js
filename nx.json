@@ -1,42 +1,37 @@
 {
-  "npmScope": "@wallettree",
-  "affected": {
-    "defaultBase": "master"
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/node"
-  },
-  "workspaceLayout": {
-    "libsDir": "packages",
-    "appsDir": "examples"
-  },
-  "implicitDependencies": {
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
+    "npmScope": "@wallettree",
+    "affected": {
+        "defaultBase": "master"
     },
-    ".eslintrc.json": "*"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/nx-cloud",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
-        "accessToken": "MDQ3MGIxMzktYzFkNS00ZmRmLWFjOWYtMDc4ZDUwNjMzMzE2fHJlYWQtd3JpdGU="
-      }
+    "cli": {
+        "defaultCollection": "@nrwl/node"
+    },
+    "workspaceLayout": {
+        "libsDir": "packages",
+        "appsDir": "examples"
+    },
+    "implicitDependencies": {
+        "package.json": {
+            "dependencies": "*",
+            "devDependencies": "*"
+        },
+        ".eslintrc.json": "*"
+    },
+    "tasksRunnerOptions": {
+        "default": {
+            "runner": "@nrwl/nx-cloud",
+            "options": {
+                "cacheableOperations": ["build", "lint", "test", "e2e"],
+                "accessToken": "MDQ3MGIxMzktYzFkNS00ZmRmLWFjOWYtMDc4ZDUwNjMzMzE2fHJlYWQtd3JpdGU="
+            }
+        }
+    },
+    "targetDependencies": {
+        "build": [
+            {
+                "target": "build",
+                "projects": "dependencies"
+            }
+        ]
     }
-  },
-  "targetDependencies": {
-    "build": [
-      {
-        "target": "build",
-        "projects": "dependencies"
-      }
-    ]
-  }
 }

@@ -6,16 +6,20 @@ import type { CancelablePromise } from '../core/CancelablePromise'
 import { request as __request } from '../core/request'
 
 export class SearchService {
-  public static search(username: string): CancelablePromise<any> {
-    return __request({
-      method: 'GET',
-      path: `/v1/profile/${username}`,
-      errors: {
-        400: `Bad Request. Validation failed for the given object in the HTTP Body or Request parameters.`,
-        401: `Unauthorized. Not valid or inactive subscription key present in the HTTP Header.`,
-        403: `Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.`,
-        500: `Internal server error. There was an error on the server while processing the request.`,
-      },
-    })
-  }
+    public static search(username: string): CancelablePromise<any> {
+        return __request({
+            method: 'GET',
+            path: '/v1/profile',
+            query: {
+                username: username,
+                returnType: 'id', // id | profile
+            },
+            errors: {
+                400: `Bad Request. Validation failed for the given object in the HTTP Body or Request parameters.`,
+                401: `Unauthorized. Not valid or inactive subscription key present in the HTTP Header.`,
+                403: `Forbidden. The request is authenticated, but it is not possible to required perform operation due to logical error or invalid permissions.`,
+                500: `Internal server error. There was an error on the server while processing the request.`,
+            },
+        })
+    }
 }
