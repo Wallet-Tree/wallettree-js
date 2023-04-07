@@ -1,4 +1,4 @@
-import { PaymentService, SearchService } from '../generated'
+import { AuthService, PaymentService, ProfileService } from '../generated'
 import { OpenAPI } from '../generated/core/OpenAPI'
 
 export type WalletTreeApiType = ReturnType<typeof WalletTreeApi>
@@ -29,6 +29,7 @@ export function WalletTreeApi(apiKey: string) {
 // export type EvmBasedApiService = EthereumService
 
 export const ApiServices = {
+    auth: AuthService,
     payments: PaymentService,
-    search: SearchService,
+    profile: ProfileService,
 }

@@ -139,7 +139,7 @@ export class WalletTreeSDK {
 
         try {
             // Fetch profileId
-            const response = await WalletTreeApi(this.apiKey).search.search(formattedUsername)
+            const response = await WalletTreeApi(this.apiKey).profile.search(formattedUsername, 'id')
             const { profileId } = response
 
             // Fetch profile

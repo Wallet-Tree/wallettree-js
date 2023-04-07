@@ -11,6 +11,6 @@ export type { Error403AccountActive } from './models/Error403AccountActive';
 
 export type { Error404TxNotFound } from './models/Error404TxNotFound';
 
-
+export { AuthService } from './services/AuthService';
 export { PaymentService } from './services/PaymentService';
-export { SearchService } from './services/SearchService';
+export { ProfileService } from './services/ProfileService';
