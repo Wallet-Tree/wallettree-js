@@ -14,9 +14,11 @@ export const WALLETTREE_API_CONSTANTS = {
     TRON_PRO_API_KEY: '',
 }
 
-export function WalletTreeApi(apiKey: string, url: string = WALLETTREE_API_CONSTANTS.URL) {
+export function WalletTreeApi(apiKey: string) {
     OpenAPI.HEADERS = { [WALLETTREE_API_CONSTANTS.HEADER_API_KEY]: apiKey }
-    OpenAPI.BASE = process.env['WALLETTREE_API_URL'] ?? url
+    OpenAPI.BASE =
+        process.env['WALLETTREE_API_URL'] ??
+        WALLETTREE_API_CONSTANTS.URL + '/' + WALLETTREE_API_CONSTANTS.API_VERSION
 
     // @TODO
     WALLETTREE_API_CONSTANTS.API_KEY = apiKey

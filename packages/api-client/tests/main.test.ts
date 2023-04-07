@@ -1,15 +1,14 @@
 // Modules
-import { WalletTreeApi } from '../../../dist/packages/api-client/src'
+import { WalletTreeApi } from '../../../packages/api-client/src'
 
 // Config
 const apiKey = '123'
-const url = 'https://dev-api.wallettree.me/v1'
 
 describe('WalletTreeSDK', () => {
     let walletTreeApi: any
 
     beforeAll(async () => {
-        walletTreeApi = WalletTreeApi(apiKey, url)
+        walletTreeApi = WalletTreeApi(apiKey)
     })
 
     describe('SearchService', () => {

@@ -10,7 +10,7 @@ export type WalletTreeConfig = {
     /**
      * The currency of the virtual account
      */
-    ceramicUrl: string
+    ceramicUrl?: string
     /**
      * The currency of the virtual account
      */

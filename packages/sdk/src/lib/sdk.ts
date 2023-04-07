@@ -36,12 +36,12 @@ export class WalletTreeSDK {
     wallets: Wallets
 
     constructor(args: WalletTreeConfig) {
-        if (!args.apiKey || !args.ceramicUrl) {
-            throw new Error('WalletTree SDK missing argument(s)')
+        if (!args.apiKey) {
+            throw new Error('WalletTreeSDK requires an API key')
         }
 
         this.apiKey = args.apiKey
-        this.ceramicUrl = args.ceramicUrl
+        this.ceramicUrl = args.ceramicUrl || process.env['WALLETTREE_CERAMIC_URL']
         this.sessionKeyId = args.sessionKeyId || 'walletTreeDID'
 
         this.ceramic = new CeramicClient(args.ceramicUrl)

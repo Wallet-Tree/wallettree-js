@@ -1,5 +1,5 @@
 // Modules
-import { WalletTreeSDK } from '../../../dist/packages/sdk/src'
+import { WalletTreeSDK } from '../../../packages/sdk/src'
 
 // Types
 import { Wallet } from 'dist/packages/sdk/src/lib/models/Wallet'
@@ -8,13 +8,12 @@ import { WalletProvider } from 'dist/packages/sdk/src/lib/models/WalletProvider'
 
 // Config
 const apiKey = '123'
-const ceramicUrl = 'https://...'
 
 describe('WalletTreeSDK', () => {
     let walletTree: WalletTreeSDK
 
     beforeAll(async () => {
-        walletTree = new WalletTreeSDK({ apiKey: apiKey, ceramicUrl: ceramicUrl })
+        walletTree = new WalletTreeSDK({ apiKey: apiKey })
     })
 
     describe('SDK', () => {
