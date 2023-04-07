@@ -50,7 +50,7 @@ describe('WalletTreeSDK', () => {
         })
 
         it('should update profile privacy', async () => {
-            const privacy = await walletTree.profile.get()
+            const privacy = await walletTree.profile.me()
             const profile = await walletTree.profile.setPrivacy(!privacy)
             expect(profile.privacy).toEqual(!privacy)
         })
@@ -61,7 +61,7 @@ describe('WalletTreeSDK', () => {
         let newWallet
 
         beforeAll(async () => {
-            profile = await walletTree.profile.get()
+            profile = await walletTree.profile.me()
         })
 
         it('should create a new wallet', async () => {
@@ -76,7 +76,7 @@ describe('WalletTreeSDK', () => {
                 favorite: false,
                 // TODO: add createdAt, updatedAt?
             }
-            newWallet = await walletTree.wallets.create(profile.profileId, wallet)
+            newWallet = await walletTree.wallets.create(wallet)
             expect(newWallet.address).toEqual(wallet.address)
         })
 

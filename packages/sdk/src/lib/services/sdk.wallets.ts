@@ -6,11 +6,11 @@ import { Wallet } from '../models/Wallet.js'
 export class Wallets extends WalletTreeSDK {
     /**
      * Adds a wallet to the authenticated wallet's profile.
-     * @param profileId
-     * @param wallet
+     * @param wallet New wallet to create
+     * @param profileId Optional profile override
      * @returns
      */
-    create = async (profileId: string, wallet: Wallet): Promise<any> => {
+    create = async (wallet: Wallet, profileId?: string): Promise<any> => {
         if (super.ceramic.did === undefined) throw new Error('Missing authenticated DID session')
 
         try {
@@ -19,7 +19,7 @@ export class Wallets extends WalletTreeSDK {
 			mutation {
 				createWalletTreeWallet(input: {
 					content: {
-						profileID: "${profileId}" 
+						profileID: "${profileId || super.profileId}" 
 						address: "${wallet.address}"
 						name: "${wallet.name}"
 						description: "${wallet.description}"
@@ -70,8 +70,8 @@ export class Wallets extends WalletTreeSDK {
 
     /**
      * Updates the name of a wallet from the authenticated wallet's profile.
-     * @param walletId
-     * @param name
+     * @param walletId Wallet to update
+     * @param name New wallet name
      * @returns
      */
     updateName = async (walletId: string, name: string): Promise<any> => {
@@ -115,8 +115,8 @@ export class Wallets extends WalletTreeSDK {
 
     /**
      * Updates the description of a wallet from the authenticated wallet's profile.
-     * @param walletId
-     * @param description
+     * @param walletId Wallet to update
+     * @param description New wallet description
      * @returns
      */
     updateDescription = async (walletId: string, description: string): Promise<any> => {
@@ -160,8 +160,8 @@ export class Wallets extends WalletTreeSDK {
 
     /**
      * Updates the primary status of a wallet from the authenticated wallet's profile.
-     * @param walletId
-     * @param primary
+     * @param walletId Wallet to update
+     * @param primary New wallet primary status
      * @returns
      */
     updatePrimary = async (walletId: string, primary: boolean): Promise<any> => {
@@ -205,8 +205,8 @@ export class Wallets extends WalletTreeSDK {
 
     /**
      * Updates the privacy of a wallet from the authenticated wallet's profile.
-     * @param walletId
-     * @param privacy
+     * @param walletId Wallet to update
+     * @param privacy New wallet privacy
      * @returns
      */
     updatePrivacy = async (walletId: string, privacy: boolean): Promise<any> => {
@@ -246,8 +246,8 @@ export class Wallets extends WalletTreeSDK {
 
     /**
      * Updates the favorite status of a wallet from the authenticated wallet's profile.
-     * @param walletId
-     * @param favorite
+     * @param walletId Wallet to update
+     * @param favorite New wallet favorite status
      * @returns
      */
     updateFavorite = async (walletId: string, favorite: boolean): Promise<any> => {
@@ -287,7 +287,7 @@ export class Wallets extends WalletTreeSDK {
 
     /**
      * Deletes a wallet from the authenticated wallet's profile.
-     * @param walletId
+     * @param walletId Wallet to delete
      * @returns
      */
     delete = async (walletId: string): Promise<any> => {

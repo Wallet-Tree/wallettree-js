@@ -11,6 +11,7 @@ import { WalletTreeApi } from '@wallettree/api-client'
 import { RuntimeCompositeDefinition } from '@composedb/types'
 import type { CeramicApi } from '@ceramicnetwork/common'
 import { WalletTreeConfig } from './models/WalletTreeConfig.js'
+import { SocialProviders } from './models/SocialProviders.js'
 
 // Sub classes
 import { Profile } from './services/sdk.profile.js'
@@ -35,6 +36,12 @@ export class WalletTreeSDK {
     profile: Profile
     wallets: Wallets
 
+    private _profileId: string
+
+    /**
+     * Creates a new WalletTreeSDK instance.
+     * @param args SDK configuration
+     */
     constructor(args: WalletTreeConfig) {
         if (!args.apiKey) {
             throw new Error('WalletTreeSDK requires an API key')
@@ -54,7 +61,20 @@ export class WalletTreeSDK {
         this.wallets = new Wallets(args)
     }
 
-    authenticate = async (customProvider?: any) => {
+    public get profileId() {
+        return this._profileId
+    }
+
+    public set profileId(id: string) {
+        this._profileId = id
+    }
+
+    /**
+     * Loads existing or creates new authenticatd wallet session.
+     * @param provider Optional Ethereum provider - uses window.ethereum by default
+     * @returns
+     */
+    authenticate = async (provider?: any) => {
         const sessionStr = localStorage.getItem(this.sessionKeyId)
         let session
 
@@ -68,7 +88,7 @@ export class WalletTreeSDK {
             }
 
             // We enable the ethereum provider to get the user's addresses.
-            const ethProvider = customProvider || window.ethereum
+            const ethProvider = provider || window.ethereum
             // request ethereum accounts.
             const addresses = await ethProvider.enable({
                 method: 'eth_requestAccounts',
@@ -94,28 +114,32 @@ export class WalletTreeSDK {
 
     /**
      * Returns a public profile.
-     * @param username
-     * @param numWallets
+     * @param username Email, phone (E.164), or social handle (@<username>)
+     * @param socialProvider Twitter, Discord, Facebook, Linkedin, or Twitch
+     * @param numWallets Optional number of wallets to return
      * @returns
      */
-    search = async (username: string, numWallets?: number) => {
+    search = async (username: string, socialProvider?: SocialProviders, numWallets?: number) => {
         // Validate username
         if (
-            !username
-                .toLowerCase()
-                .match(
-                    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                ) ||
-            !username
-                .toLowerCase()
-                .match(/(?<=[^\/]|^)[A-Za-z0-9_.]{3,25}-(facebook|twitter|discord|linkedin|twitch)$/)
+            (!socialProvider &&
+                !username
+                    .toLowerCase()
+                    .match(
+                        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                    )) ||
+            !username.match(/^\+?[1-9]\d{1,14}$/)
         ) {
-            throw new Error('Invalid username')
+            throw new Error('Invalid email or phone')
+        } else if (!username.toLowerCase().match(/^@?(\w){1,15}$/)) {
+            throw new Error('Invalid social handle')
         }
+
+        const formattedUsername = socialProvider ? username + `-${socialProvider}` : username.toLowerCase()
 
         try {
             // Fetch profileId
-            const response = await WalletTreeApi(this.apiKey).search.search(username)
+            const response = await WalletTreeApi(this.apiKey).search.search(formattedUsername)
             const { profileId } = response
 
             // Fetch profile

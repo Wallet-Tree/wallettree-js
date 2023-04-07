@@ -3,10 +3,10 @@ import { WalletTreeSDK } from '../sdk'
 export class Profile extends WalletTreeSDK {
     /**
      * Returns the authenticated users profile.
-     * @param numWallets
+     * @param numWallets Optional number of wallets to return
      * @returns
      */
-    get = async (numWallets?: number): Promise<any> => {
+    me = async (numWallets?: number): Promise<any> => {
         try {
             const profile: any = await super.composeClient.executeQuery(`
 				query {
@@ -41,6 +41,9 @@ export class Profile extends WalletTreeSDK {
 						}
 					}
 				}`)
+
+            super.profileId = profile?.data?.viewer?.walletTreeProfile?.id
+
             return {
                 profile: profile?.data?.viewer?.walletTreeProfile,
                 wallets: profile?.data?.viewer?.walletTreeWalletList.edges.map((wallet: any) => wallet.node),
@@ -52,8 +55,8 @@ export class Profile extends WalletTreeSDK {
 
     /**
      * Creates a new profile for the authenticated wallet.
-     * @param userId
-     * @param privacy
+     * @param userId Unique user identifier
+     * @param privacy Initial profile privacy setting
      * @returns
      */
     create = async (userId: string, privacy: boolean = false): Promise<any> => {
@@ -82,6 +85,9 @@ export class Profile extends WalletTreeSDK {
 					}
 				}
 			}`)
+
+            super.profileId = create?.data?.createWalletTreeProfile?.document?.id
+
             return create?.data?.createWalletTreeProfile.document
         } catch (error) {
             throw new Error('Custom error')
@@ -90,20 +96,21 @@ export class Profile extends WalletTreeSDK {
 
     /**
      * Updates the authenticated wallet's profile privacy.
-     * @param privacy
+     * @param privacy New profile privacy setting
+     * @param profileId Optional profile override
      * @returns
      */
-    setPrivacy = async (privacy: boolean): Promise<any> => {
+    setPrivacy = async (privacy: boolean, profileId?: string): Promise<any> => {
         if (super.ceramic.did === undefined) throw new Error('Missing authenticated DID session')
 
         try {
             const update: any = await super.composeClient.executeQuery(`
 			mutation {
 				updateWalletTreeProfile(input: {
-					id: ""
+					id: "${profileId || super.profileId}" 
 					content: {
-					private: ${privacy}
-					updatedAt: "${Date.now().toString()}"
+						private: ${privacy}
+						updatedAt: "${Date.now().toString()}"
 					}
 				}) 
 				{
