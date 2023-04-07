@@ -1,7 +1,7 @@
 {
     "name": "@wallettree/wallettree-js",
     "version": "0.1.0",
-    "description": "Node.js SDK for integrating Wallettree into your app",
+    "description": "Add global wallet discovery using 📧, ☎️, and @socials to your dApp. Let users share wallets with a single link and send/receive any crypto without ever touching an address.",
     "scripts": {
         "start": "nx serve",
         "build": "nx affected:build --skip-nx-cache",
@@ -28,7 +28,10 @@
         "type": "git",
         "url": "git+https://github.com/Wallet-Tree/wallettree-js.git"
     },
-    "author": "Joshua Blew <joshua@wallettree.me>",
+    "author": "Normal Finance, Inc.",
+    "contributors": [
+        "Joshua Blew <joshua@wallettree.me>"
+    ],
     "license": "MIT",
     "bugs": {
         "url": "https://github.com/Wallet-Tree/wallettree-js/issues"
