@@ -5,7 +5,7 @@ import { DIDSession } from 'did-session'
 import { EthereumWebAuth, getAccountId } from '@didtools/pkh-ethereum'
 import { definition } from './__generated__/definition.js'
 
-import { WalletTreeApi } from '@wallettree/api-client'
+import { WalletTreeApi, WalletTreeApiType } from '@wallettree/api-client'
 
 // Types
 import { RuntimeCompositeDefinition } from '@composedb/types'
@@ -16,6 +16,8 @@ import { SocialProviders } from './models/SocialProviders.js'
 // Sub classes
 import { Profile } from './services/sdk.profile.js'
 import { Wallets } from './services/sdk.wallets.js'
+import { Auth } from './services/sdk.auth.js'
+import { Payments } from './services/sdk.payments.js'
 
 // If you are relying on an injected provider this must be here otherwise you will have a type error.
 declare global {
@@ -33,6 +35,9 @@ export class WalletTreeSDK {
     ceramic: CeramicApi
     composeClient: ComposeClient
 
+    api: WalletTreeApiType
+    auth: Auth
+    payments: Payments
     profile: Profile
     wallets: Wallets
 
@@ -57,6 +62,9 @@ export class WalletTreeSDK {
             definition: definition as RuntimeCompositeDefinition,
         })
 
+        this.api = WalletTreeApi(args.apiKey)
+        this.auth = new Auth(args)
+        this.payments = new Payments(args)
         this.profile = new Profile(args)
         this.wallets = new Wallets(args)
     }
@@ -135,7 +143,9 @@ export class WalletTreeSDK {
             throw new Error('Invalid social handle')
         }
 
-        const formattedUsername = socialProvider ? username + `-${socialProvider}` : username.toLowerCase()
+        const formattedUsername = socialProvider
+            ? username.substring(1) + `-${socialProvider}`
+            : username.toLowerCase()
 
         try {
             // Fetch profileId

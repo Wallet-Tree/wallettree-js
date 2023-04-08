@@ -6,7 +6,7 @@ export type WalletTreeApiType = ReturnType<typeof WalletTreeApi>
 export type WalletTreeUrlArg = string
 
 export const WALLETTREE_API_CONSTANTS = {
-    URL: 'https://api.wallettree.me',
+    URL: 'https://dev-api.wallettree.me',
     HEADER_API_KEY: 'x-api-key',
     NODE_TYPE_KEY: 'x-node-type',
     API_VERSION: 'v1',
@@ -16,9 +16,7 @@ export const WALLETTREE_API_CONSTANTS = {
 
 export function WalletTreeApi(apiKey: string) {
     OpenAPI.HEADERS = { [WALLETTREE_API_CONSTANTS.HEADER_API_KEY]: apiKey }
-    OpenAPI.BASE =
-        process.env['WALLETTREE_API_URL'] ??
-        WALLETTREE_API_CONSTANTS.URL + '/' + WALLETTREE_API_CONSTANTS.API_VERSION
+    OpenAPI.BASE = WALLETTREE_API_CONSTANTS.URL + '/' + WALLETTREE_API_CONSTANTS.API_VERSION
 
     // @TODO
     WALLETTREE_API_CONSTANTS.API_KEY = apiKey

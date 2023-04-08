@@ -2,7 +2,8 @@
 import { WalletTreeApi, WalletTreeApiType } from '../../../packages/api-client/src'
 
 // Config
-const apiKey = '123'
+const apiKey = '53e0A4eH3f4Ypmq9QL6ya27CLEDEg0LKf44Idhcj'
+const email = 'joshua@wallettre.me'
 
 describe('WalletTreeSDK', () => {
     let walletTreeApi: WalletTreeApiType
@@ -11,7 +12,14 @@ describe('WalletTreeSDK', () => {
         walletTreeApi = WalletTreeApi(apiKey)
     })
 
-    describe('AuthService', () => {})
+    describe('AuthService', () => {
+        it('should send a verification code', async () => {
+            const response = await walletTreeApi.auth.sendCode({
+                email: email,
+            })
+            expect(response.data.success).toEqual(true)
+        })
+    })
 
     describe('PaymentsService', () => {
         it("should get a user's payments", async () => {
@@ -32,17 +40,14 @@ describe('WalletTreeSDK', () => {
 
     describe('ProfileService', () => {
         it('should search for a profile using an email', async () => {
-            const email = 'joshua@wallettre.me'
-            const response = await walletTreeApi.profile.search(email, 'profile')
-            // TODO: this will fail as userId is an internal value to WalletTree and NOT the same as email
-            expect(response.data.profile.userId).toEqual(email)
+            const response = await walletTreeApi.profile.search(email, 'id')
+            expect(response.data.profileId).toBeTruthy()
         })
 
         it('should search for a profile using a social username', async () => {
             const twitterUsername = 'wallettreeme-twitter'
-            const response = await walletTreeApi.profile.search(twitterUsername, 'profile')
-            // TODO: this will fail as userId is an internal value to WalletTree and NOT the same as a social username
-            expect(response.data.profile.userId).toEqual(twitterUsername)
+            const response = await walletTreeApi.profile.search(twitterUsername, 'id')
+            expect(response.data.profileId).toBeTruthy()
         })
     })
 })
